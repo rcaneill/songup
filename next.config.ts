@@ -1,5 +1,8 @@
 import type { NextConfig } from "next"
 
+const flaskUrl = process.env.FLASK_URL || "http://127.0.0.1:5328"
+const docsUrl = process.env.DOCS_DOMAIN || "https://docs.songup.tv"
+
 const nextConfig: NextConfig = {
     rewrites: async () => {
         return [
@@ -8,7 +11,7 @@ const nextConfig: NextConfig = {
                 destination:
                     process.env.NODE_ENV === "development"
                         ? "http://127.0.0.1:5328/flask/:path*"
-                        : "/api/flask/index",
+                        : `${flaskUrl}/flask/:path*`,
             },
             {
                 source: "/relay-iljT/static/:path*",
@@ -20,15 +23,15 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/docs",
-                destination: `${process.env.DOCS_DOMAIN}/docs`,
+                destination: `${docsUrl}/docs`,
             },
             {
                 source: "/docs/:path+",
-                destination: `${process.env.DOCS_DOMAIN}/docs/:path+`,
+                destination: `${docsUrl}/docs/:path+`,
             },
             {
                 source: "/docs-static/:path+",
-                destination: `${process.env.DOCS_DOMAIN}/docs-static/:path+`,
+                destination: `${docsUrl}/docs-static/:path+`,
             },
         ]
     },
